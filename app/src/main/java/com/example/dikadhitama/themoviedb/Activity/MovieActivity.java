@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ import static com.example.dikadhitama.themoviedb.URLs.popular_URL;
 
 public class MovieActivity extends BaseActivity {
     private static final String TAG = "MovieActivity";
+    private TextView category;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private ArrayList<Movies> movieList = new ArrayList<>();
@@ -43,9 +45,12 @@ public class MovieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        API_URL = popular_URL;
         initRecycler();
         initAdapterMovies();
+
+        API_URL = popular_URL;
+        category = (TextView)findViewById(R.id.text_category);
+        category.setText(R.string.popular);
         loadList();
     }
 
@@ -64,19 +69,23 @@ public class MovieActivity extends BaseActivity {
                     return true;
                 } else {
                     API_URL = popular_URL;
+                    category.setText(R.string.popular);
+                    loadList();
                 }
-                loadList();
                 break;
             case R.id.top_rated_menu:
                 if (API_URL.equals(URLs.top_rated_URL)) {
                     return true;
                 } else {
                     API_URL = URLs.top_rated_URL;
+                    category.setText(R.string.top_rated);
+                    loadList();
                 }
-                loadList();
                 break;
             case R.id.favorites_menu:
+                category.setText(R.string.favorites);
                 getLocalData();
+                API_URL = "";
                 break;
         }
 //        getDB().clearMovie();
@@ -85,10 +94,6 @@ public class MovieActivity extends BaseActivity {
 
     private void loadList() {
         showDialog("Now Loading");
-        requestToServer();
-    }
-
-    private void requestToServer() {
         if (isInternetConnectionAvailable()) {
             getData();
         } else {
