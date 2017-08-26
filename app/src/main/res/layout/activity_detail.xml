@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbars="vertical">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        tools:context="com.example.dikadhitama.themoviedb.Activity.DetailActivity">
+        
+        <ImageView
+            android:id="@+id/poster_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/original_title_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="12dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintLeft_toRightOf="@+id/poster_detail"
+            app:layout_constraintTop_toTopOf="@+id/poster_detail"
+            app:layout_constraintBottom_toTopOf="@+id/vote_average_detail"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="12dp" />
+
+        <TextView
+            android:id="@+id/vote_average_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintLeft_toLeftOf="@+id/original_title_detail"
+            app:layout_constraintTop_toBottomOf="@+id/original_title_detail"
+            app:layout_constraintBottom_toTopOf="@+id/release_date_detail"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/release_date_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintLeft_toLeftOf="@+id/original_title_detail"
+            app:layout_constraintTop_toBottomOf="@+id/vote_average_detail"
+            app:layout_constraintBottom_toBottomOf="@+id/poster_detail"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/overview_detail"
+            android:layout_width="352dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintTop_toBottomOf="@+id/poster_detail"
+            app:layout_constraintLeft_toLeftOf="@+id/poster_detail"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
