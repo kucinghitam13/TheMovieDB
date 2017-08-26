@@ -18,6 +18,16 @@ public class Movies implements Serializable {
     private String release_date;
     private String title;
 
+    public Movies() {
+    }
+
+    //contructor for sqlite
+    public Movies(int id, String title, String poster_path) {
+        this.id = id;
+        this.title = title;
+        this.poster_path = poster_path;
+    }
+
     public int getId() {
         return id;
     }

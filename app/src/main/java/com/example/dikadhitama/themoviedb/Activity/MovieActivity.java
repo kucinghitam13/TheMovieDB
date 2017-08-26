@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import static com.example.dikadhitama.themoviedb.URLs.popular_URL;
 
 public class MovieActivity extends BaseActivity {
-
     private static final String TAG = "MovieActivity";
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
@@ -45,6 +44,8 @@ public class MovieActivity extends BaseActivity {
         setContentView(R.layout.activity_movie);
 
         API_URL = popular_URL;
+        initRecycler();
+        initAdapterMovies();
         loadList();
     }
 
@@ -56,6 +57,7 @@ public class MovieActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        movieList.clear();
         switch (item.getItemId()) {
             case R.id.popular_menu:
                 if (API_URL.equals(URLs.popular_URL)) {
@@ -63,6 +65,7 @@ public class MovieActivity extends BaseActivity {
                 } else {
                     API_URL = popular_URL;
                 }
+                loadList();
                 break;
             case R.id.top_rated_menu:
                 if (API_URL.equals(URLs.top_rated_URL)) {
@@ -70,18 +73,22 @@ public class MovieActivity extends BaseActivity {
                 } else {
                     API_URL = URLs.top_rated_URL;
                 }
+                loadList();
+                break;
+            case R.id.favorites_menu:
+                getLocalData();
                 break;
         }
-        movieList.clear();
-        loadList();
+//        getDB().clearMovie();
         return true;
     }
 
     private void loadList() {
-        initRecycler();
-        initAdapterMovies();
-
         showDialog("Now Loading");
+        requestToServer();
+    }
+
+    private void requestToServer() {
         if (isInternetConnectionAvailable()) {
             getData();
         } else {
@@ -138,12 +145,13 @@ public class MovieActivity extends BaseActivity {
                         JSONObject child = m.getJSONObject(i);
 
                         Movies movie = new Movies();
-                        movie.setOriginal_title(child.getString("original_title"));
-                        movie.setRelease_date(child.getString("release_date"));
-                        movie.setVote_average(child.getDouble("vote_average"));
-                        movie.setOverview(child.getString("overview"));
+                        movie.setId(child.getInt("id"));
+//                        movie.setOriginal_title(child.getString("original_title"));
+//                        movie.setRelease_date(child.getString("release_date"));
+//                        movie.setVote_average(child.getDouble("vote_average"));
+//                        movie.setOverview(child.getString("overview"));
                         movie.setPoster_path(child.getString("poster_path"));
-                        movie.setTitle(child.getString("title"));
+//                        movie.setTitle(child.getString("title"));
 
                         movieList.add(movie);
                     }
@@ -161,4 +169,15 @@ public class MovieActivity extends BaseActivity {
         });
         AppMovie.getInstance().addToRequestQueue(request, TAG);
     }
+
+    private void getLocalData(){
+        movieList = getDB().getAllListMovies();
+        listAdapter.swapData(movieList);
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        listAdapter.swapData(getDB().getAllListMovies());
+//    }
 }

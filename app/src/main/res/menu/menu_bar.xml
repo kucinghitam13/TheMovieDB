@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/popular_menu"
-        android:title="@string/popular"/>
+        android:title="@string/popular" />
     <item
         android:id="@+id/top_rated_menu"
-        android:title="@string/top_rated"/>
+        android:title="@string/top_rated" />
+    <item
+        android:id="@+id/favorites_menu"
+        android:title="@string/favorites" />
 </menu>

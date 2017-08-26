@@ -10,13 +10,27 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.dikadhitama.themoviedb.Database.DatabaseHandler;
+
 public class BaseActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private AlertDialog.Builder alert;
+    private DatabaseHandler db;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //init dialog
         pDialog = new ProgressDialog(this);
+        //init alert
+        alert = new AlertDialog.Builder(this);
+
+        //init db SQLITE
+        db = new DatabaseHandler(this);
+    }
+
+    //method buat get db
+    protected DatabaseHandler getDB() {
+        return db;
     }
 
     protected void showAlertMessage(String title, String message) {
@@ -45,10 +59,7 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean isInternetConnectionAvailable(){
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork == null){
-            return false;
-        }
-        return (activeNetwork == null ? false : activeNetwork.isConnectedOrConnecting());
+        return activeNetwork == null ? false : activeNetwork.isConnectedOrConnecting();
     }
 
     @Override
