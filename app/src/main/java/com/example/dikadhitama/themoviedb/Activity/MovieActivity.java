@@ -65,21 +65,21 @@ public class MovieActivity extends BaseActivity {
         movieList.clear();
         switch (item.getItemId()) {
             case R.id.popular_menu:
-                if (API_URL.equals(URLs.popular_URL)) {
-                    return true;
-                } else {
+                if (!API_URL.equals(URLs.popular_URL)) {
                     API_URL = popular_URL;
                     category.setText(R.string.popular);
                     loadList();
+                } else {
+                    return true;
                 }
                 break;
             case R.id.top_rated_menu:
-                if (API_URL.equals(URLs.top_rated_URL)) {
-                    return true;
-                } else {
+                if (!API_URL.equals(URLs.top_rated_URL)) {
                     API_URL = URLs.top_rated_URL;
                     category.setText(R.string.top_rated);
                     loadList();
+                } else {
+                    return true;
                 }
                 break;
             case R.id.favorites_menu:
@@ -104,7 +104,6 @@ public class MovieActivity extends BaseActivity {
 
     private void initRecycler() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_movie);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));
     }
@@ -118,19 +117,13 @@ public class MovieActivity extends BaseActivity {
                         .load(URLs.image342_URL + model.getPoster_path())
                         .into(holder.poster);
 
-//                holder.title.setText(model.getTitle());
-//                holder.release_date.setText(model.getRelease_date());
-//                holder.vote_average.setText(String.valueOf(model.getVote_average()));
-
-                holder.getLayoutParent().setOnClickListener(new View.OnClickListener() {
+                holder.layoutParent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(MovieActivity.this, model.getOriginal_title(), Toast.LENGTH_SHORT).show();
+                        //Intent i = new Intent(MovieActivity.this, DetailActivity.class);
+                        //i.putExtra("movie", model);
 
-                        Intent i = new Intent(MovieActivity.this, DetailActivity.class);
-                        i.putExtra("movie", model);
-
-                        startActivity(i);
+                        startActivity(new Intent(getApplicationContext(), DetailActivity.class).putExtra("movie", model));
                     }
                 });
             }
@@ -151,12 +144,7 @@ public class MovieActivity extends BaseActivity {
 
                         Movies movie = new Movies();
                         movie.setId(child.getInt("id"));
-//                        movie.setOriginal_title(child.getString("original_title"));
-//                        movie.setRelease_date(child.getString("release_date"));
-//                        movie.setVote_average(child.getDouble("vote_average"));
-//                        movie.setOverview(child.getString("overview"));
                         movie.setPoster_path(child.getString("poster_path"));
-//                        movie.setTitle(child.getString("title"));
 
                         movieList.add(movie);
                     }
@@ -179,10 +167,4 @@ public class MovieActivity extends BaseActivity {
         movieList = getDB().getAllListMovies();
         listAdapter.swapData(movieList);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        listAdapter.swapData(getDB().getAllListMovies());
-//    }
 }

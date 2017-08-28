@@ -10,4 +10,5 @@ public class URLs {
     public static final String top_rated_URL = base_URL + "top_rated" + API_KEY;
     public static final String popular_URL = base_URL + "popular" + API_KEY;
     public static final String image342_URL = "https://image.tmdb.org/t/p/w342/";
+    public static final String youtube_URL = "https://youtube.com/watch?v=";
 }
