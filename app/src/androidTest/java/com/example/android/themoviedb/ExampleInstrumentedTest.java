@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb;
+package com.example.android.themoviedb;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

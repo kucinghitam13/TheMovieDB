@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb.Activity;
+package com.example.android.themoviedb.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +18,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.dikadhitama.themoviedb.Adapter.ListAdapter;
-import com.example.dikadhitama.themoviedb.Adapter.ViewHolders.TrailerViewHolder;
-import com.example.dikadhitama.themoviedb.AppMovie;
-import com.example.dikadhitama.themoviedb.BaseActivity;
-import com.example.dikadhitama.themoviedb.Model.Movies;
-import com.example.dikadhitama.themoviedb.Model.Trailers;
-import com.example.dikadhitama.themoviedb.R;
-import com.example.dikadhitama.themoviedb.URLs;
+import com.example.android.themoviedb.Adapter.ListAdapter;
+import com.example.android.themoviedb.Adapter.ViewHolders.ReviewViewHolder;
+import com.example.android.themoviedb.Adapter.ViewHolders.TrailerViewHolder;
+import com.example.android.themoviedb.AppMovie;
+import com.example.android.themoviedb.BaseActivity;
+import com.example.android.themoviedb.Model.Movies;
+import com.example.android.themoviedb.Model.Reviews;
+import com.example.android.themoviedb.Model.Trailers;
+import com.example.android.themoviedb.R;
+import com.example.android.themoviedb.URLs;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -40,9 +43,10 @@ public class DetailActivity extends BaseActivity {
     private ImageView poster;
     private Button bt_favorite;
 
-    private RecyclerView recyclerView;
-    private ListAdapter listAdapter;
+    private RecyclerView trailerRecycler, reviewRecycler;
+    private ListAdapter trailerAdapter, reviewAdapter;
     private ArrayList<Trailers> trailerList = new ArrayList<>();
+    private ArrayList<Reviews> reviewList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +57,26 @@ public class DetailActivity extends BaseActivity {
 
         movie = (Movies) getIntent().getSerializableExtra("movie");
 
+        getSupportActionBar().setTitle(movie.getTitle());
+
         title = (TextView) findViewById(R.id.title_detail);
         vote_average = (TextView) findViewById(R.id.vote_average_detail);
         release_date = (TextView) findViewById(R.id.release_date_detail);
         overview = (TextView) findViewById(R.id.overview_detail);
         poster = (ImageView) findViewById(R.id.poster_detail);
+        trailerRecycler = (RecyclerView) findViewById(R.id.recycler_view_trailer);
+        reviewRecycler = (RecyclerView) findViewById(R.id.recycler_view_review);
 
-        initRecyclerTrailer();
+        initRecycler(trailerRecycler);
+        initRecycler(reviewRecycler);
         initAdapterTrailer();
+        initAdapterReview();
 
         showDialog("Now Loading");
         if (isInternetConnectionAvailable()) {
             getInfo();
             getTrailer();
+            getReview();
         } else {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
             hideDialog();
@@ -92,16 +103,19 @@ public class DetailActivity extends BaseActivity {
         return true;
     }
 
-    private void initRecyclerTrailer() {
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailer);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));
+    private void initRecycler(RecyclerView recyclerView) {
+        RecyclerView r = recyclerView;
+        r.setLayoutManager(new LinearLayoutManager(this));
+        r.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));
     }
 
     private void initAdapterTrailer() {
-        listAdapter = new ListAdapter<Trailers, TrailerViewHolder>(R.layout.trailer_list, TrailerViewHolder.class, Trailers.class, trailerList) {
+        trailerAdapter = new ListAdapter<Trailers, TrailerViewHolder>(R.layout.trailer_list, TrailerViewHolder.class, Trailers.class, trailerList) {
             @Override
             protected void bindView(TrailerViewHolder holder, final Trailers model, int position) {
+                TextView header = (TextView) findViewById(R.id.trailer_text);
+                header.setText("Trailers:");
+
                 holder.trailerName.setText(model.getTrailer_name());
                 holder.trailerParent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -111,7 +125,28 @@ public class DetailActivity extends BaseActivity {
                 });
             }
         };
-        recyclerView.setAdapter(listAdapter);
+        trailerRecycler.setAdapter(trailerAdapter);
+    }
+
+    private void initAdapterReview() {
+        reviewAdapter = new ListAdapter<Reviews, ReviewViewHolder>(R.layout.review_list, ReviewViewHolder.class, Reviews.class, reviewList) {
+            @Override
+            protected void bindView(ReviewViewHolder holder, final Reviews model, int position) {
+                TextView header = (TextView) findViewById(R.id.review_text);
+                header.setText("Reviews:");
+
+                holder.reviewContent.setText(model.getReview_content());
+                holder.reviewContent.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.reviewAuthor.setText(model.getReview_author());
+                holder.reviewAuthor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(model.getReview_URL())));
+                    }
+                });
+            }
+        };
+        reviewRecycler.setAdapter(reviewAdapter);
     }
 
     private void getInfo() {
@@ -133,7 +168,7 @@ public class DetailActivity extends BaseActivity {
                     movie.setRelease_date(parent.getString("release_date"));
 
                     title.setText(movie.getTitle().equals(movie.getOriginal_title()) ? movie.getOriginal_title() : movie.getOriginal_title() + "\n(" + movie.getTitle() + ")");
-                    vote_average.setText(String.valueOf(movie.getVote_average()) + "/10");
+                    vote_average.setText(String.valueOf(movie.getVote_average()) + " / 10");
                     release_date.setText(movie.getRelease_date());
                     overview.setText(movie.getOverview());
                     hideDialog();
@@ -161,11 +196,46 @@ public class DetailActivity extends BaseActivity {
                     JSONArray t = parent.getJSONArray("results");
                     for (int i = 0; i < t.length(); i++) {
                         JSONObject child = t.getJSONObject(i);
-                        Trailers trailer = new Trailers(child.getString("name"), child.getString("key"));
+                        Trailers trailer = new Trailers(
+                                child.getString("name"),
+                                child.getString("key"));
 
                         trailerList.add(trailer);
                     }
-                    listAdapter.swapData(trailerList);
+                    trailerAdapter.swapData(trailerList);
+                    hideDialog();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideDialog();
+            }
+        });
+        AppMovie.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    private void getReview() {
+        final String API_URL = URLs.base_URL + movie.getId() + "/reviews" + URLs.API_KEY;
+
+        StringRequest request = new StringRequest(Request.Method.GET, API_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject parent = new JSONObject(response);
+                    JSONArray r = parent.getJSONArray("results");
+                    for (int i = 0; i < r.length(); i++) {
+                        JSONObject child = r.getJSONObject(i);
+                        Reviews review = new Reviews(
+                                child.getString("author"),
+                                child.getString("content"),
+                                child.getString("url"));
+
+                        reviewList.add(review);
+                    }
+                    reviewAdapter.swapData(reviewList);
                     hideDialog();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -181,5 +251,5 @@ public class DetailActivity extends BaseActivity {
     }
 }
 
-//TODO(1) bikin lebih pendek dengan buat method
-//TODO(2) benerin models biar lebih efektif
+//TODO(1) kasih thumbnail youtube
+//TODO(1) kasih border, judul, percantik, dll

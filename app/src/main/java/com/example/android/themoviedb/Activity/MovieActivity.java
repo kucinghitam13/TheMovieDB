@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb.Activity;
+package com.example.android.themoviedb.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,13 +15,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.dikadhitama.themoviedb.Adapter.ListAdapter;
-import com.example.dikadhitama.themoviedb.Adapter.ViewHolders.MovieViewHolder;
-import com.example.dikadhitama.themoviedb.AppMovie;
-import com.example.dikadhitama.themoviedb.BaseActivity;
-import com.example.dikadhitama.themoviedb.Model.Movies;
-import com.example.dikadhitama.themoviedb.R;
-import com.example.dikadhitama.themoviedb.URLs;
+import com.example.android.themoviedb.Adapter.ListAdapter;
+import com.example.android.themoviedb.Adapter.ViewHolders.MovieViewHolder;
+import com.example.android.themoviedb.AppMovie;
+import com.example.android.themoviedb.BaseActivity;
+import com.example.android.themoviedb.Model.Movies;
+import com.example.android.themoviedb.R;
+import com.example.android.themoviedb.URLs;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.dikadhitama.themoviedb.URLs.popular_URL;
+import static com.example.android.themoviedb.URLs.popular_URL;
 
 public class MovieActivity extends BaseActivity {
     private static final String TAG = "MovieActivity";
@@ -145,6 +145,7 @@ public class MovieActivity extends BaseActivity {
                         Movies movie = new Movies();
                         movie.setId(child.getInt("id"));
                         movie.setPoster_path(child.getString("poster_path"));
+                        movie.setTitle(child.getString("title"));
 
                         movieList.add(movie);
                     }

@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb.Adapter;
+package com.example.android.themoviedb.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,10 +8,6 @@ import android.view.ViewGroup;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by dikaa_001 on 12/08/2017.
- */
 
 public abstract class ListAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     private static final String TAG = ListAdapter.class.getSimpleName();

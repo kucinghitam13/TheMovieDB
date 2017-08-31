@@ -1,7 +1,7 @@
-package com.example.dikadhitama.themoviedb;
+package com.example.android.themoviedb;
 
 /**
- * Created by dikaa_001 on 15/08/2017. https://api.themoviedb.org/3/movie/top_rated?api_key=59a8c65586fec1aee362b633a4017178
+ * Created by kucinghitam13 on 15/08/2017.
  */
 
 public class URLs {

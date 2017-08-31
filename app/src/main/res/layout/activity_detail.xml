@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        tools:context="com.example.dikadhitama.themoviedb.Activity.DetailActivity">
+        tools:context="com.example.android.themoviedb.Activity.DetailActivity">
 
         <ImageView
             android:id="@+id/poster_detail"
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="12dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             app:layout_constraintBottom_toTopOf="@+id/vote_average_detail"
             app:layout_constraintLeft_toRightOf="@+id/poster_detail"
             app:layout_constraintRight_toRightOf="parent"
@@ -36,7 +36,8 @@
             android:id="@+id/vote_average_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toTopOf="@+id/release_date_detail"
             app:layout_constraintLeft_toLeftOf="@+id/title_detail"
             app:layout_constraintRight_toRightOf="parent"
@@ -46,7 +47,8 @@
             android:id="@+id/release_date_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="@+id/poster_detail"
             app:layout_constraintLeft_toLeftOf="@+id/title_detail"
             app:layout_constraintRight_toRightOf="parent"
@@ -56,7 +58,7 @@
             android:id="@+id/overview_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             app:layout_constraintLeft_toLeftOf="@+id/poster_detail"
             app:layout_constraintRight_toRightOf="parent"
@@ -71,13 +73,41 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/overview_detail" />
 
+        <TextView
+            android:id="@+id/trailer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trailers:"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            app:layout_constraintTop_toBottomOf="@id/bt_favorite" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_trailer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bt_favorite"></android.support.v7.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@id/trailer_text">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/review_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews:"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_trailer" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_review"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/review_text">
+
+        </android.support.v7.widget.RecyclerView>
 
     </android.support.constraint.ConstraintLayout>
 

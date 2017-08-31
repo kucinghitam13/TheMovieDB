@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb.Database;
+package com.example.android.themoviedb.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.dikadhitama.themoviedb.Model.Movies;
+import com.example.android.themoviedb.Model.Movies;
 
 import java.util.ArrayList;
 
 /**
- * Created by KOMBAT on 8/26/2017.
+ * Created by kucinghitam13 on 8/26/2017.
  */
 
 public class DatabaseHandler extends SQLiteOpenHelper{

@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb;
+package com.example.android.themoviedb;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.dikadhitama.themoviedb.Database.DatabaseHandler;
+import com.example.android.themoviedb.Database.DatabaseHandler;
 
 public class BaseActivity extends AppCompatActivity {
     private ProgressDialog pDialog;

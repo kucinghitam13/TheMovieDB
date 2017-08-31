@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb;
+package com.example.android.themoviedb;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -18,14 +18,14 @@ public class AppMovie extends Application {
     private static AppMovie mInstance;
     private RequestQueue mRequestQueue;
 
+    public static synchronized AppMovie getInstance() {
+        return mInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-    }
-
-    public static synchronized AppMovie getInstance() {
-        return mInstance;
     }
 
     public RequestQueue getRequestQueue() {

@@ -1,14 +1,14 @@
-package com.example.dikadhitama.themoviedb.Adapter.ViewHolders;
+package com.example.android.themoviedb.Adapter.ViewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.dikadhitama.themoviedb.R;
+import com.example.android.themoviedb.R;
 
 /**
- * Created by dikaa_001 on 28/08/2017.
+ * Created by kucinghitam13 on 28/08/2017.
  */
 
 public class TrailerViewHolder extends RecyclerView.ViewHolder {

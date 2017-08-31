@@ -1,9 +1,9 @@
-package com.example.dikadhitama.themoviedb.Model;
+package com.example.android.themoviedb.Model;
 
 import java.io.Serializable;
 
 /**
- * Created by dikaa_001 on 28/08/2017.
+ * Created by kucinghitam13 on 28/08/2017.
  */
 
 public class Trailers implements Serializable {

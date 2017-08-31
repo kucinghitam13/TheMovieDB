@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.dikadhitama.themoviedb.Activity.MovieActivity">
+    tools:context="com.example.android.themoviedb.Activity.MovieActivity">
 
     <TextView
         android:id="@+id/text_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:textColor="@android:color/white"
         android:background="@android:color/holo_blue_bright"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:padding="12dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_movie"

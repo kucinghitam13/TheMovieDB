@@ -1,16 +1,16 @@
-package com.example.dikadhitama.themoviedb.Model;
+package com.example.android.themoviedb.Model;
 
 import java.io.Serializable;
 
 /**
- * Created by dikaa_001 on 15/08/2017.
+ * Created by kucinghitam13 on 15/08/2017.
  */
 
 public class Movies implements Serializable {
     private int id;
     private int vote_count;
-    private double vote_average;
     private int popularity;
+    private double vote_average;
     private String poster_path;
     private String original_language;
     private String original_title;

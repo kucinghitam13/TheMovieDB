@@ -1,4 +1,4 @@
-package com.example.dikadhitama.themoviedb;
+package com.example.android.themoviedb;
 
 import org.junit.Test;
 
