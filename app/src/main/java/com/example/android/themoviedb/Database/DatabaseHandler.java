@@ -30,7 +30,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_POSTER = "poster_path";
-//    private static final String KEY_FAVORITE = "favorite";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,23 +59,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //ALL CRUD METHOD
 
-    public int getCountMovies() {
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_MOVIES;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        return cursor.getCount();
-    }
-
     public boolean isMovieExist(Movies m) {
         String query = "SELECT  * FROM " + TABLE_MOVIES + " WHERE " + KEY_ID + "=" + m.getId();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        return cursor.getCount() != 0;
+        boolean movieCount = cursor.getCount() != 0;
+        cursor.close();
+        return movieCount;
     }
 
     //tambahkan movie
@@ -91,31 +82,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //inserting row to table
         db.insert(TABLE_MOVIES, null, values);
         db.close();
-    }
-
-    //truncate movie
-    public void clearMovie() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        //clear table
-        db.execSQL("DELETE FROM " + TABLE_MOVIES);
-        db.close();
-    }
-
-    //ambil data 1 movie
-    public Movies getMovie(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_MOVIES, new String[]{KEY_ID,
-                        KEY_TITLE, KEY_POSTER}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Movies movies = new Movies(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
-
-        return movies;
     }
 
     //ambil data semua movie
@@ -137,22 +103,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 movieList.add(movies);
             } while (cursor.moveToNext());
         }
-
         // return movie list
+        cursor.close();
         return movieList;
-    }
-
-    //update movie
-    public int updateMovie(Movies movies) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, movies.getOriginal_title()); // put title movie
-        values.put(KEY_POSTER, movies.getPoster_path()); // put favorite
-
-        // updating row
-        return db.update(TABLE_MOVIES, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(movies.getId())});
     }
 
     //delete movie
@@ -162,4 +115,53 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(movies.getId())});
         db.close();
     }
+
+
+    /*public int getCountMovies() {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MOVIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        return cursor.getCount();
+    }*/
+
+    //truncate movie
+    /*public void clearMovie() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //clear table
+        db.execSQL("DELETE FROM " + TABLE_MOVIES);
+        db.close();
+    }*/
+
+    //ambil data 1 movie
+    /*public Movies getMovie(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_MOVIES, new String[]{KEY_ID,
+                        KEY_TITLE, KEY_POSTER}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Movies movies = new Movies(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2));
+
+        return movies;
+    }*/
+
+    //update movie
+    /*public int updateMovie(Movies movies) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, movies.getOriginal_title()); // put title movie
+        values.put(KEY_POSTER, movies.getPoster_path()); // put favorite
+
+        // updating row
+        return db.update(TABLE_MOVIES, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(movies.getId())});
+    }*/
 }

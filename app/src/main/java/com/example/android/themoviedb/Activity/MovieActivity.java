@@ -111,7 +111,7 @@ public class MovieActivity extends BaseActivity {
             protected void bindView(MovieViewHolder holder, final Movies model, int position) {
 
                 Picasso.with(getApplicationContext())
-                        .load(URLs.image342_URL + model.getPoster_path())
+                        .load(URLs.image185_URL + model.getPoster_path())
                         .into(holder.poster);
 
                 holder.layoutParent.setOnClickListener(new View.OnClickListener() {
