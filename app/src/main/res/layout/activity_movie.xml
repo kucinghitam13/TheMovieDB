@@ -6,15 +6,6 @@
     android:orientation="vertical"
     tools:context="com.example.android.themoviedb.Activity.MovieActivity">
 
-    <TextView
-        android:id="@+id/text_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_bright"
-        android:padding="12dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/white" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_movie"
         android:layout_width="match_parent"

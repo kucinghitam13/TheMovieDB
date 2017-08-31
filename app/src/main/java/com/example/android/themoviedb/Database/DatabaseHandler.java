@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by kucinghitam13 on 8/26/2017.
  */
 
-public class DatabaseHandler extends SQLiteOpenHelper{
+public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHandler";
     //database version
     private static final int DATABASE_VERSION = 1;
@@ -40,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_MOVIES_TABLE = "CREATE TABLE " + TABLE_MOVIES + " (" +
-                KEY_ID + " INTEGER PRIMARY KEY, "+
+                KEY_ID + " INTEGER PRIMARY KEY, " +
                 KEY_TITLE + " TEXT," +
                 KEY_POSTER + " TEXT)";
 
@@ -70,13 +70,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return cursor.getCount();
     }
 
-    public boolean isMovieExist(int id){
-        String selectQuery = "SELECT  * FROM " + TABLE_MOVIES + "WHERE " + KEY_ID + "=" + id;
+    public boolean isMovieExist(Movies m) {
+        String query = "SELECT  * FROM " + TABLE_MOVIES + " WHERE " + KEY_ID + "=" + m.getId();
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
 
-        return cursor.getCount()!=0;
+        return cursor.getCount() != 0;
     }
 
     //tambahkan movie
@@ -98,7 +98,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
 
         //clear table
-        db.execSQL("DELETE FROM "+TABLE_MOVIES);
+        db.execSQL("DELETE FROM " + TABLE_MOVIES);
         db.close();
     }
 
@@ -106,9 +106,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public Movies getMovie(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_MOVIES, new String[] {KEY_ID,
-                        KEY_TITLE, KEY_POSTER }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_MOVIES, new String[]{KEY_ID,
+                        KEY_TITLE, KEY_POSTER}, KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -152,14 +152,14 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         // updating row
         return db.update(TABLE_MOVIES, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(movies.getId()) });
+                new String[]{String.valueOf(movies.getId())});
     }
 
     //delete movie
     public void deleteMovie(Movies movies) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MOVIES, KEY_ID + " = ?",
-                new String[] { String.valueOf(movies.getId()) });
+                new String[]{String.valueOf(movies.getId())});
         db.close();
     }
 }

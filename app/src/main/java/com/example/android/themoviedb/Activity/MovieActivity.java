@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,7 +33,6 @@ import static com.example.android.themoviedb.URLs.popular_URL;
 
 public class MovieActivity extends BaseActivity {
     private static final String TAG = "MovieActivity";
-    private TextView category;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private ArrayList<Movies> movieList = new ArrayList<>();
@@ -49,8 +47,7 @@ public class MovieActivity extends BaseActivity {
         initAdapterMovies();
 
         API_URL = popular_URL;
-        category = (TextView)findViewById(R.id.text_category);
-        category.setText(R.string.popular);
+        getSupportActionBar().setTitle("Movies (Popular)");
         loadList();
     }
 
@@ -67,7 +64,7 @@ public class MovieActivity extends BaseActivity {
             case R.id.popular_menu:
                 if (!API_URL.equals(URLs.popular_URL)) {
                     API_URL = popular_URL;
-                    category.setText(R.string.popular);
+                    getSupportActionBar().setTitle("Movies (Popular)");
                     loadList();
                 } else {
                     return true;
@@ -76,14 +73,14 @@ public class MovieActivity extends BaseActivity {
             case R.id.top_rated_menu:
                 if (!API_URL.equals(URLs.top_rated_URL)) {
                     API_URL = URLs.top_rated_URL;
-                    category.setText(R.string.top_rated);
+                    getSupportActionBar().setTitle("Movies (Top Rated)");
                     loadList();
                 } else {
                     return true;
                 }
                 break;
             case R.id.favorites_menu:
-                category.setText(R.string.favorites);
+                getSupportActionBar().setTitle("Movies (Favorites)");
                 getLocalData();
                 API_URL = "";
                 break;
@@ -167,5 +164,13 @@ public class MovieActivity extends BaseActivity {
     private void getLocalData(){
         movieList = getDB().getAllListMovies();
         listAdapter.swapData(movieList);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (API_URL.isEmpty()) {
+            getLocalData();
+        }
     }
 }

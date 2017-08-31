@@ -20,9 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.android.themoviedb.Activity.DetailActivity"
-            android:label="Movie Detail"></activity>
+        <activity android:name="com.example.android.themoviedb.Activity.DetailActivity"></activity>
     </application>
 
 </manifest>

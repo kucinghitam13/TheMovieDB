@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +40,6 @@ public class DetailActivity extends BaseActivity {
     private Movies movie;
     private TextView title, vote_average, release_date, overview;
     private ImageView poster;
-    private Button bt_favorite;
 
     private RecyclerView trailerRecycler, reviewRecycler;
     private ListAdapter trailerAdapter, reviewAdapter;
@@ -82,12 +80,34 @@ public class DetailActivity extends BaseActivity {
             hideDialog();
         }
 
-        bt_favorite = (Button) findViewById(R.id.bt_favorite);
+        /*Button bt_favorite = (Button) findViewById(bt_favorite);
         bt_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getDB().addMovie(movie);
                 Toast.makeText(getApplicationContext(), movie.getOriginal_title() + " has been added to your favorite list", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        final ImageView favorite = (ImageView) findViewById(R.id.favorite);
+        if (getDB().isMovieExist(movie)) {
+            favorite.setImageResource(android.R.drawable.btn_star_big_on);
+        } else {
+            favorite.setImageResource(android.R.drawable.btn_star_big_off);
+        }
+
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getDB().isMovieExist(movie)) {
+                    favorite.setImageResource(android.R.drawable.btn_star_big_off);
+                    getDB().deleteMovie(movie);
+                    Toast.makeText(getApplicationContext(), movie.getOriginal_title() + " has been removed from your favorite list.", Toast.LENGTH_SHORT).show();
+                } else {
+                    favorite.setImageResource(android.R.drawable.btn_star_big_on);
+                    getDB().addMovie(movie);
+                    Toast.makeText(getApplicationContext(), movie.getOriginal_title() + " has been added to your favorite list.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -116,6 +136,10 @@ public class DetailActivity extends BaseActivity {
                 TextView header = (TextView) findViewById(R.id.trailer_text);
                 header.setText("Trailers:");
 
+                Picasso.with(getApplicationContext())
+                        .load(URLs.youtube_thumbnail_URL + model.getTrailer_key() + "/1.jpg")
+                        .into(holder.trailerThumbnail);
+
                 holder.trailerName.setText(model.getTrailer_name());
                 holder.trailerParent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,7 +161,7 @@ public class DetailActivity extends BaseActivity {
 
                 holder.reviewContent.setText(model.getReview_content());
                 holder.reviewContent.setMovementMethod(LinkMovementMethod.getInstance());
-                holder.reviewAuthor.setText(model.getReview_author());
+                holder.reviewAuthor.setText("by " + model.getReview_author());
                 holder.reviewAuthor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -166,15 +190,14 @@ public class DetailActivity extends BaseActivity {
                     movie.setOverview(parent.getString("overview"));
                     movie.setVote_average(parent.getDouble("vote_average"));
                     movie.setRelease_date(parent.getString("release_date"));
-
-                    title.setText(movie.getTitle().equals(movie.getOriginal_title()) ? movie.getOriginal_title() : movie.getOriginal_title() + "\n(" + movie.getTitle() + ")");
-                    vote_average.setText(String.valueOf(movie.getVote_average()) + " / 10");
-                    release_date.setText(movie.getRelease_date());
-                    overview.setText(movie.getOverview());
-                    hideDialog();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                title.setText(movie.getTitle().equals(movie.getOriginal_title()) ? movie.getOriginal_title() : movie.getOriginal_title() + "\n(" + movie.getTitle() + ")");
+                vote_average.setText("Score:\n" + String.valueOf(movie.getVote_average()) + " / 10");
+                release_date.setText("Release date:\n" + movie.getRelease_date());
+                overview.setText(movie.getOverview());
+                hideDialog();
             }
         }, new Response.ErrorListener() {
             @Override
