@@ -159,7 +159,7 @@ public class DetailActivity extends BaseActivity {
                 TextView header = (TextView) findViewById(R.id.review_text);
                 header.setText("Reviews:");
 
-                holder.reviewContent.setText(model.getReview_content());
+                holder.reviewContent.setText(model.getReview_content() + " ");
                 holder.reviewContent.setMovementMethod(LinkMovementMethod.getInstance());
                 holder.reviewAuthor.setText("by " + model.getReview_author());
                 holder.reviewAuthor.setOnClickListener(new View.OnClickListener() {

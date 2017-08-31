@@ -11,7 +11,7 @@ public class MovieViewHolder extends RecyclerView.ViewHolder{
     public ImageView poster;
     public LinearLayout layoutParent;
 
-    MovieViewHolder(View itemView){
+    public MovieViewHolder(View itemView) {
         super(itemView);
 
         poster = (ImageView)itemView.findViewById(R.id.poster_movie);
