@@ -5,8 +5,8 @@ package com.example.android.themoviedb;
  */
 
 public class URLs {
+    public static final String API_KEY = ""; //add your own API KEY
     public static final String base_URL = "https://api.themoviedb.org/3/movie/";
-    public static final String API_KEY = "?api_key=59a8c65586fec1aee362b633a4017178";
     public static final String top_rated_URL = base_URL + "top_rated" + API_KEY;
     public static final String popular_URL = base_URL + "popular" + API_KEY;
     public static final String image185_URL = "https://image.tmdb.org/t/p/w185/";

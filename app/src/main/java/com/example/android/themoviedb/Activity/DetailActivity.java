@@ -274,5 +274,6 @@ public class DetailActivity extends BaseActivity {
     }
 }
 
-//TODO(1) kasih thumbnail youtube
-//TODO(1) kasih border, judul, percantik, dll
+//TODO(1) bikin keterangan empty data di recyclerview
+//TODO(2) bikin teks dialog loading yang dinamis
+//TODO(3) progress bar lesson 2
