@@ -77,7 +77,7 @@ public class DetailActivity extends BaseActivity {
             getReview();
         } else {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
-            hideDialog();
+
         }
 
         final ImageView favorite = (ImageView) findViewById(R.id.favorite);
@@ -188,12 +188,10 @@ public class DetailActivity extends BaseActivity {
                 vote_average.setText("Score:\n" + String.valueOf(movie.getVote_average()) + " / 10");
                 release_date.setText("Release date:\n" + movie.getRelease_date());
                 overview.setText(movie.getOverview());
-                hideDialog();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                hideDialog();
             }
         });
         AppMovie.getInstance().addToRequestQueue(request, TAG);
@@ -208,24 +206,31 @@ public class DetailActivity extends BaseActivity {
                 try {
                     JSONObject parent = new JSONObject(response);
                     JSONArray t = parent.getJSONArray("results");
-                    for (int i = 0; i < t.length(); i++) {
-                        JSONObject child = t.getJSONObject(i);
-                        Trailers trailer = new Trailers(
-                                child.getString("name"),
-                                child.getString("key"));
+                    if (t.length() == 0) {
+                        TextView noTrailer = (TextView) findViewById(R.id.notrailer_text);
+                        noTrailer.setText("No trailers are available");
+                        noTrailer.setVisibility(View.VISIBLE);
 
-                        trailerList.add(trailer);
+                        reviewRecycler.setVisibility(View.INVISIBLE);
+                    } else {
+                        for (int i = 0; i < t.length(); i++) {
+                            JSONObject child = t.getJSONObject(i);
+                            Trailers trailer = new Trailers(
+                                    child.getString("name"),
+                                    child.getString("key"));
+
+                            trailerList.add(trailer);
+                        }
+                        trailerAdapter.swapData(trailerList);
                     }
-                    trailerAdapter.swapData(trailerList);
-                    hideDialog();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                hideDialog();
             }
         });
         AppMovie.getInstance().addToRequestQueue(request, TAG);
@@ -240,16 +245,24 @@ public class DetailActivity extends BaseActivity {
                 try {
                     JSONObject parent = new JSONObject(response);
                     JSONArray r = parent.getJSONArray("results");
-                    for (int i = 0; i < r.length(); i++) {
-                        JSONObject child = r.getJSONObject(i);
-                        Reviews review = new Reviews(
-                                child.getString("author"),
-                                child.getString("content"),
-                                child.getString("url"));
+                    if (r.length() == 0) {
+                        TextView noReview = (TextView) findViewById(R.id.noreview_text);
+                        noReview.setText("No reviews are available");
+                        noReview.setVisibility(View.VISIBLE);
 
-                        reviewList.add(review);
+                        reviewRecycler.setVisibility(View.INVISIBLE);
+                    } else {
+                        for (int i = 0; i < r.length(); i++) {
+                            JSONObject child = r.getJSONObject(i);
+                            Reviews review = new Reviews(
+                                    child.getString("author"),
+                                    child.getString("content"),
+                                    child.getString("url"));
+
+                            reviewList.add(review);
+                        }
+                        reviewAdapter.swapData(reviewList);
                     }
-                    reviewAdapter.swapData(reviewList);
                     hideDialog();
                 } catch (JSONException e) {
                     e.printStackTrace();
