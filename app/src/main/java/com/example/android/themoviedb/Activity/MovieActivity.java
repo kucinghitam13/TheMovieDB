@@ -90,7 +90,7 @@ public class MovieActivity extends BaseActivity {
     }
 
     private void loadList() {
-        showDialog("Now Loading");
+        showDialog("Loading Movies List");
         if (isInternetConnectionAvailable()) {
             getData();
         } else {
@@ -108,8 +108,7 @@ public class MovieActivity extends BaseActivity {
     private void initAdapterMovies() {
         listAdapter = new ListAdapter<Movies, MovieViewHolder>(R.layout.movie_list, MovieViewHolder.class, Movies.class, movieList) {
             @Override
-            protected void bindView(MovieViewHolder holder, final Movies model, int position) {
-
+            protected void bindView(final MovieViewHolder holder, final Movies model, int position) {
                 Picasso.with(getApplicationContext())
                         .load(URLs.image185_URL + model.getPoster_path())
                         .into(holder.poster);
@@ -117,9 +116,6 @@ public class MovieActivity extends BaseActivity {
                 holder.layoutParent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Intent i = new Intent(MovieActivity.this, DetailActivity.class);
-                        //i.putExtra("movie", model);
-
                         startActivity(new Intent(getApplicationContext(), DetailActivity.class).putExtra("movie", model));
                     }
                 });

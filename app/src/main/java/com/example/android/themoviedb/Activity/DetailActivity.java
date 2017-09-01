@@ -80,15 +80,6 @@ public class DetailActivity extends BaseActivity {
             hideDialog();
         }
 
-        /*Button bt_favorite = (Button) findViewById(bt_favorite);
-        bt_favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDB().addMovie(movie);
-                Toast.makeText(getApplicationContext(), movie.getOriginal_title() + " has been added to your favorite list", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         final ImageView favorite = (ImageView) findViewById(R.id.favorite);
         if (getDB().isMovieExist(movie)) {
             favorite.setImageResource(android.R.drawable.btn_star_big_on);

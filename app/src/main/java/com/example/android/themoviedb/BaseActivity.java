@@ -50,6 +50,10 @@ public class BaseActivity extends AppCompatActivity {
         pDialog.show();
     }
 
+    protected void changeDialog(String msg) {
+        pDialog.setMessage(msg);
+    }
+
     protected void hideDialog() {
         if (pDialog.isShowing()) {
             pDialog.dismiss();
@@ -59,7 +63,7 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean isInternetConnectionAvailable(){
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork == null ? false : activeNetwork.isConnectedOrConnecting();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     @Override
