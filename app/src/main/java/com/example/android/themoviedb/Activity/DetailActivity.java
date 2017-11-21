@@ -70,7 +70,7 @@ public class DetailActivity extends BaseActivity {
         initAdapterTrailer();
         initAdapterReview();
 
-        showDialog("Now Loading");
+        showDialog("Loading Movie Information");
         if (isInternetConnectionAvailable()) {
             getInfo();
             getTrailer();

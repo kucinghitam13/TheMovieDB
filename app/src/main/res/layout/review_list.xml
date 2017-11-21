@@ -11,10 +11,8 @@
         android:id="@+id/review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:linksClickable="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        app:colorClickableText="@android:color/holo_blue_dark" />
+        app:colorClickableText="@color/colorAccent" />
 
     <TextView
         android:id="@+id/review_author"
